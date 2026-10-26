@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ScriptHub</title>
+<style>
+:root{--bg:#0b0b12;--card:#13131c;--line:#242433;--tx:#f2f2fa;--mu:#8e90a8;--ac:#7c3aed;--ac2:#a78bfa;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+*{box-sizing:border-box}html,body{margin:0}
+body{background:var(--bg);color:var(--tx);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;-webkit-tap-highlight-color:transparent}
+header{display:flex;align-items:center;gap:8px;padding:12px 16px;border-bottom:1px solid var(--line);position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);z-index:5}
+.logo{display:flex;align-items:center;gap:8px;font-weight:800;font-size:21px;color:var(--ac2);flex:1}
+button,input,textarea,select{font:inherit;color:var(--tx)}
+.b{border:0;border-radius:10px;padding:10px 16px;font-weight:600;background:var(--ac);color:#fff;cursor:pointer}
+.b.g{background:transparent;border:1px solid var(--line);color:var(--mu)}
+.b.s{padding:8px 12px;font-size:14px}
+.f{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;width:100%}
+textarea.f{min-height:110px;resize:vertical;font-family:ui-monospace,monospace;font-size:13px}
+.hero{text-align:center;padding:30px 16px 8px;max-width:640px;margin:auto}
+h1{font-size:34px;margin:0 0 10px;letter-spacing:-1px}h1 span{color:var(--ac2)}
+.hero p{color:var(--mu);margin:0 0 18px;font-size:17px}
+.sr{display:flex;gap:10px}
+.info{display:flex;flex-wrap:wrap;justify-content:center;gap:6px 18px;color:var(--mu);font-size:14px;padding:18px 16px}
+.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#10b981;margin-right:6px}
+main{max-width:640px;margin:auto;padding:0 16px 90px}
+.top{display:flex;align-items:center;justify-content:space-between;margin:8px 0 14px}
+h2{margin:0;font-size:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;margin-bottom:16px;overflow:hidden}
+.in{padding:16px}.tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.t{font-size:13px;padding:5px 11px;border-radius:8px;background:#26203d;color:var(--ac2)}
+.t.Aimbot{background:#3a1c22;color:#f87171}.t.v{background:#12302a;color:#34d399}.t.Admin{background:#172a45;color:#60a5fa}.t.Keyless{background:#3a2e12;color:#facc15}
+.card h3{margin:0 0 8px;font-size:20px}.card p{margin:0 0 12px;color:var(--mu);line-height:1.4}
+.meta{display:flex;gap:16px;color:var(--mu);font-size:14px}
+.ac{display:flex;gap:10px;padding:14px 16px;border-top:1px solid var(--line)}.ac .b:first-child{flex:1}
+.fab{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));width:56px;height:56px;border-radius:50%;font-size:30px;padding:0;box-shadow:0 6px 20px #7c3aed66;display:none;z-index:6}
+.mod{position:fixed;inset:0;background:#000b;display:none;align-items:flex-end;justify-content:center;z-index:20}
+.mod.on{display:flex}
+.box{background:var(--card);border:1px solid var(--line);border-radius:20px 20px 0 0;padding:20px 20px calc(20px + env(safe-area-inset-bottom,0px));width:100%;max-width:520px;max-height:92%;overflow:auto;display:flex;flex-direction:column;gap:10px}
+.box h3{margin:0}.err{color:#f87171;font-size:14px;min-height:18px}
+pre{background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto;font-size:12px;margin:0;white-space:pre-wrap;word-break:break-all}
+.chk{display:flex;flex-wrap:wrap;gap:8px}.chk label{font-size:14px;color:var(--mu);display:flex;gap:4px;align-items:center}
+.u{display:none;align-items:center;gap:8px}.av{width:34px;height:34px;border-radius:50%;background:var(--ac);display:grid;place-items:center;font-weight:700}
+#toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#222236;padding:10px 16px;border-radius:10px;display:none;z-index:30}
+</style></head><body>
+<header>
+ <div class="logo"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 12 10 5 10-5"/><path d="m2 17 10 5 10-5"/></svg>ScriptHub</div>
+ <div id="guest"><button class="b g s" id="bLogin">Login</button> <button class="b s" id="bReg">Sign Up</button></div>
+ <div class="u" id="user"><div class="av" id="av"></div><button class="b g s" id="out">Salir</button></div>
+</header>
+<section class="hero">
+ <h1>Free Roblox <span>Scripts</span></h1>
+ <p>Busca, copia y ejecuta los mejores scripts de la comunidad</p>
+ <div class="sr"><input class="f" id="q" placeholder='Buscar "aimbot", "infinite yield"...'><button class="b" id="go">Buscar</button></div>
+</section>
+<div class="info"><span><i class="dot"></i>En línea</span><span id="cnt">0 scripts</span><span id="dt">—</span><span id="vis">Visitas: …</span></div>
+<main><div class="top"><h2>Scripts recientes</h2></div><div id="list"></div></main>
+<button class="b fab" id="fab" aria-label="Publicar">+</button>
+
+<div class="mod" id="mAuth"><div class="box">
+ <h3 id="aT">Login</h3>
+ <input class="f" id="an" placeholder="Nombre de usuario" maxlength="20" style="display:none"><input class="f" id="au" type="email" placeholder="Correo" autocomplete="email">
+ <input class="f" id="ap" type="password" placeholder="Contraseña (mín. 6)" autocomplete="current-password">
+ <div class="err" id="ae"></div>
+ <button class="b" id="aGo">Entrar</button><button class="b g" data-x="mAuth">Cancelar</button>
+</div></div>
+<div class="mod" id="mPub"><div class="box">
+ <h3>Publicar script</h3>
+ <input class="f" id="pn" placeholder="Nombre del script" maxlength="60">
+ <input class="f" id="pd" placeholder="Descripción corta" maxlength="160">
+ <div class="chk" id="pt"></div>
+ <textarea class="f" id="pc" placeholder="Pega aquí el código del script"></textarea>
+ <div class="err" id="pe"></div>
+ <button class="b" id="pGo">Publicar</button><button class="b g" data-x="mPub">Cancelar</button>
+</div></div>
+<div class="mod" id="mView"><div class="box">
+ <h3 id="vT"></h3><pre id="vC"></pre><div style="color:var(--mu);font-size:13px">⚠ Este código carga contenido externo. Revísalo antes de ejecutarlo: ScriptHub no se hace responsable.</div>
+ <button class="b" id="vCp">Copiar</button><button class="b g" data-x="mView">Cerrar</button>
+</div></div>
+<div id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+const SUPABASE_URL="https://bwaoftvgckvqrurzrzbt.supabase.co";
+const SUPABASE_KEY="sb_publishable_o-RYba_7yhNhfmsoQl5JLg_SSEaMtyJ"; // clave pública (nunca pongas la secret aquí)
+const sb=supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+const $=id=>document.getElementById(id),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const TAGS=["Aimbot","Admin","Universal","Keyless","ESP","Farm"];
+let list=[],user=null,q="",mode="login";
+function toast(m){const t=$("toast");t.textContent=m;t.style.display="block";setTimeout(()=>t.style.display="none",2200)}
+function ago(d){const n=Math.floor((Date.now()-new Date(d))/864e5);return n<1?"Hoy":n==1?"Ayer":"Hace "+n+" días"}
+const fmt=n=>n>=1e6?(n/1e6).toFixed(1)+"M":n>=1e3?(n/1e3).toFixed(1)+"k":n;
+function render(){
+ const l=list.filter(s=>(s.name+" "+s.descr+" "+s.tags.join(" ")).toLowerCase().includes(q));
+ $("cnt").textContent=list.length+" scripts disponibles";
+ $("list").innerHTML=l.map(s=>`<div class="card"><div class="in"><div class="tags">${s.tags.slice(0,1).map(x=>`<span class="t ${esc(x)}">${esc(x)}</span>`).join("")}${s.verified?'<span class="t v">✓ Verificado</span>':""}${s.tags.slice(1).map(x=>`<span class="t ${esc(x)}">${esc(x)}</span>`).join("")}</div><h3>${esc(s.name)}</h3><p>${esc(s.descr)}</p><div class="meta"><span>👁 ${fmt(s.views)}</span><span>📅 ${ago(s.created_at)}</span><span>👤 ${esc(s.author||"anónimo")}</span></div></div><div class="ac"><button class="b" data-c="${s.id}">Copiar</button><button class="b g" data-v="${s.id}">Ver</button>${user&&s.user_id===user.id?`<button class="b g" data-d="${s.id}">🗑</button>`:""}</div></div>`).join("")||'<p style="color:var(--mu);text-align:center">Sin resultados.</p>';
+}
+async function load(){const{data,error}=await sb.from("scripts").select("*").order("created_at",{ascending:false});if(error)return toast("Error al cargar: "+error.message);list=data;render()}
+async function view(s){s.views++;render();sb.rpc("increment_views",{sid:s.id})}
+async function copy(s){try{await navigator.clipboard.writeText(s.code);toast("¡Copiado!")}catch(e){toast("No se pudo copiar")}}
+$("list").onclick=async e=>{
+ const c=e.target.closest("[data-c]"),v=e.target.closest("[data-v]"),d=e.target.closest("[data-d]");
+ if(c){const s=list.find(x=>x.id==c.dataset.c);copy(s);view(s)}
+ if(v){const s=list.find(x=>x.id==v.dataset.v);$("vT").textContent=s.name;$("vC").textContent=s.code;$("mView").classList.add("on");view(s)}
+ if(d&&confirm("¿Borrar tu script?")){const{error}=await sb.from("scripts").delete().eq("id",d.dataset.d);error?toast(error.message):load()}
+};
+$("vCp").onclick=()=>copy({code:$("vC").textContent});
+document.querySelectorAll("[data-x]").forEach(b=>b.onclick=()=>$(b.dataset.x).classList.remove("on"));
+const search=()=>{q=$("q").value.toLowerCase().trim();render()};$("go").onclick=search;$("q").oninput=search;
+setInterval(()=>{$("dt").textContent=new Date().toLocaleDateString("es-ES",{day:"numeric",month:"short",year:"numeric"})+" · "+new Date().toLocaleTimeString("es-ES",{hour:"2-digit",minute:"2-digit"})},1000);
+/* Auth */
+function ui(){$("guest").style.display=user?"none":"block";$("user").style.display=user?"flex":"none";$("fab").style.display=user?"block":"none";if(user)$("av").textContent=(user.user_metadata?.username||user.email)[0].toUpperCase();render()}
+function openAuth(m){mode=m;$("aT").textContent=m=="login"?"Login":"Crear cuenta";$("aGo").textContent=m=="login"?"Entrar":"Registrarme";$("an").style.display=m=="reg"?"block":"none";$("ae").textContent="";$("mAuth").classList.add("on")}
+$("bLogin").onclick=()=>openAuth("login");$("bReg").onclick=()=>openAuth("reg");
+$("aGo").onclick=async()=>{
+ const email=$("au").value.trim(),p=$("ap").value,name=$("an").value.trim();
+ if(p.length<6)return $("ae").textContent="La contraseña debe tener mínimo 6 caracteres";
+ if(mode=="reg"&&!/^[\w.-]{3,20}$/.test(name))return $("ae").textContent="Usuario: 3-20 caracteres (letras, números, _ . -)";
+ $("aGo").disabled=true;
+ const r=mode=="reg"?await sb.auth.signUp({email,password:p,options:{data:{username:name}}}):await sb.auth.signInWithPassword({email,password:p});
+ $("aGo").disabled=false;
+ if(r.error)return $("ae").textContent=r.error.message;
+ if(!r.data.session)return $("ae").textContent="Revisa tu correo para confirmar la cuenta.";
+ $("ap").value="";$("mAuth").classList.remove("on");toast("Bienvenido")};
+$("out").onclick=()=>sb.auth.signOut();
+sb.auth.onAuthStateChange((_e,s)=>{user=s?.user||null;ui()});
+/* Publicar */
+$("pt").innerHTML=TAGS.map(t=>`<label><input type="checkbox" value="${t}"> ${t}</label>`).join("");
+$("fab").onclick=()=>{$("pe").textContent="";$("mPub").classList.add("on")};
+$("pGo").onclick=async()=>{
+ const name=$("pn").value.trim(),descr=$("pd").value.trim(),code=$("pc").value.trim(),tags=[...document.querySelectorAll("#pt input:checked")].map(i=>i.value);
+ if(name.length<3||!descr||code.length<5)return $("pe").textContent="Completa nombre, descripción y código";
+ $("pGo").disabled=true;
+ const{error}=await sb.from("scripts").insert({name,descr,code,tags:tags.length?tags:["Universal"],author:user.user_metadata?.username||"usuario"});
+ $("pGo").disabled=false;
+ if(error)return $("pe").textContent=error.message;
+ ["pn","pd","pc"].forEach(i=>$(i).value="");$("mPub").classList.remove("on");toast("¡Publicado!");load()};
+/* Visitas reales: una por sesión del navegador */
+async function visits(){
+ let v;
+ if(sessionStorage.getItem("sh_seen")){const r=await sb.from("site_stats").select("visits").eq("id",1).single();v=r.data?.visits}
+ else{const r=await sb.rpc("increment_visits");v=r.data;try{sessionStorage.setItem("sh_seen","1")}catch(e){}}
+ $("vis").textContent="Visitas: "+(v??0).toLocaleString("es-ES")}
+load();visits();
+sb.channel("scripts-live").on("postgres_changes",{event:"*",schema:"public",table:"scripts"},load).subscribe();
+</script></body></html>
